@@ -1,0 +1,35 @@
+NuHabit
+
+
+NuHabit is a habit tracking application that allows the user to create habits, check off when they have completed those habits, and see their progress along the way. The user will be able to add a new habit by clicking a buttont that opens a modal. When the user adds a new habit they will see four input fields: one text input for the name of the habit, a dropdown to select how often the user would like to perform that habit, a dropdown to select the time of day to perform the habit, and a dropdown to select the category. When the user adds a new habit it will appear in the DOM under the category that was chosen. Each habit will have a checkbox/radio button beside it that, when clicked, removes the habit from the "To Do" list into the "Completed" list. The "To Do" list of habits is sorted by time of day in ascending order. Every new day the habits should reappear in the "To Do" list but a duplicate of that habit should also remain in the "Completed" list for the previous day. 
+
+
+What folders and files will I need?
+
+    - auth
+        - Login.css
+        - Login.js
+        - Logout.css
+        - Logout.js
+        - Register.css
+        - Register.js
+
+    - habit
+        - Habit.css
+        - HabitCard.js
+        - HabitProvider.js
+        - HabitList.js
+        - HabitForm.js
+
+    - completedHabit
+        - CombletedHabit.css
+        - CompletedHabitCard.js
+        - CompletedHabitProvider.js
+        - CompletedHabitList.js
+    
+    - progress
+        - Progress.css
+        - LineChartCard.js
+        - BarChartCard.js
+        - ProgressProvider.js
+        - ProgressList.js

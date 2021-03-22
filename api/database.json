@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "John",
+      "email": "johndouglasprice9@gmail.com",
+      "password": "Jdp060015272!!"
+    },
+    {
+      "email": "me@me.com",
+      "name": "Bob Mggee",
+      "id": 2
+    }
+  ],
+  "habits": [
+    {
+      "userId": 1,
+      "name": "Habit",
+      "habitCategoryId": 2,
+      "time": 7,
+      "completed": true,
+      "id": 9
+    },
+    {
+      "userId": 1,
+      "name": "Habit",
+      "habitCategoryId": 1,
+      "time": 8,
+      "completed": true,
+      "id": 10
+    },
+    {
+      "userId": 1,
+      "name": "Habit 3",
+      "habitCategoryId": 2,
+      "time": "11:30",
+      "completed": false,
+      "id": 11
+    }
+  ],
+  "habitCategories": [
+    {
+      "id": 1,
+      "name": "Fitness",
+      "description": "Anything fitness related"
+    },
+    {
+      "id": 2,
+      "name": "Mental Health",
+      "description": "Mental health description"
+    }
+  ]
+}
