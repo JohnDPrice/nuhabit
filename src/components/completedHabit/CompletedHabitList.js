@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react"
 import { HabitContext } from "../habit/HabitProvider"
-import { HabitCard } from "../habit/HabitCard"
+import { CompletedHabitCard } from "./CompletedHabitCard"
 import "../habit/Habit.css"
 import { useHistory } from "react-router-dom"
-import { Button } from "@material-ui/core"
+import { Button, Grid, ButtonGroup } from "@material-ui/core"
+import Typography from '@material-ui/core/Typography';
+import GridList from '@material-ui/core/GridList';
 
 export const CompletedHabitList = () => {
   const { habits, getHabitsById} = useContext(HabitContext)
@@ -26,11 +28,19 @@ export const CompletedHabitList = () => {
 
   return (
     <>
-      <h1>Habits</h1>
+      <Grid container display="flex">
+        <Typography variant="h3" justify-content="flex-start">Completed Habits</Typography>
 
-      <Button className="addHabit" variant="contained" color="primary" onClick={() => history.push("/habits/create")}>
-          Add New Habit
-      </Button>
+        <Grid item justify-content="flex-end" flex-direction="row-reverse">
+          <ButtonGroup orientation="vertical" aria-label="vertical button group">
+              <Button variant="outlined" className="toDoButton" color="secondary" xs={6} onClick={() => history.push("/habits")}>To Do</Button>
+              <Button variant="contained" className="completedButton" color="secondary" xs={6}>Completed Habits</Button>
+          </ButtonGroup>
+        </Grid>
+      </Grid>
+
+
+    <GridList cellHeight={50} cols={1} display="flex" flexWra="wrap">
       <div className="habits">
       {
         filteredHabits.map(habit => {
@@ -38,12 +48,13 @@ export const CompletedHabitList = () => {
 
             
                 return (
-                <HabitCard key={habit.id} habit={habit} />
+                <CompletedHabitCard key={habit.id} habit={habit} />
                 )
             }
         })
       }
       </div>
+      </GridList>
     </>
   )
 }

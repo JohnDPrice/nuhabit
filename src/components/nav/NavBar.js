@@ -6,7 +6,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { BrowserRouter, Route, Link } from "react-router-dom"
+import { BrowserRouter, Route, Link, Switch, useHistory } from "react-router-dom"
+import reactDom from 'react-dom';
+import { browserHistory } from "react-router"
 
 
 function TabPanel(props) {
@@ -57,20 +59,37 @@ export default function SimpleTabs() {
     setValue(newValue);
   };
 
-  const routes = ["/habits", "/progress"]
+
+  let history = useHistory()
+
 
   return (
     <div className={classes.root}>
+
         <BrowserRouter>
             <Route path="/">
                 <AppBar position="static">
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="Habits" value={routes[0]} component={Link} to={routes[0]}/>
-                    <Tab label="Progress" value={routes[1]} component={Link} to={routes[1]}/>
+                    <Tab label="habits" value="habit" onChange={handleChange} 
+                      onClick={() => {
+                        history.push("/habits")
+                      }}
+                      component={Link} to="/habits"/>
+                    <Tab label="progress" value="progress" onChange={handleChange} 
+                        onClick={() => {
+                        history.push("/progress")
+                        }} 
+                        component={Link} to="/progress" />
                     </Tabs>
                 </AppBar>
             </Route>
+            <Switch>
+              <Route path={value} />
+            </Switch>
         </BrowserRouter>
     </div>
   );
 }
+
+const rootElement = document.getElementById("root");
+reactDom.render(<TabPanel />, rootElement)

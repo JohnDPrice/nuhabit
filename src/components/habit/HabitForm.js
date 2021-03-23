@@ -29,7 +29,7 @@ export const HabitForm = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const {habitId} = useParams();
-	const history = useHistory();
+	  const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({
         container: {
@@ -71,7 +71,8 @@ export const HabitForm = () => {
               userId: parseInt(habit.userId),
               name: habit.name,
               habitCategoryId: parseInt(habit.habitCategoryId),
-              time: habit.time
+              time: habit.time,
+              completed: false
           })
           .then(() => history.push(`/habits/`))
         }else {
@@ -81,7 +82,8 @@ export const HabitForm = () => {
             userId: parseInt(localStorage.getItem("nuhabit_user")),
             name: habit.name,
             habitCategoryId: parseInt(habit.habitCategoryId),
-            time: habit.time
+            time: habit.time,
+            completed: false
           })
           .then(() => history.push("/habits"))
         }
@@ -113,7 +115,7 @@ export const HabitForm = () => {
             <TextField type="text" id="habitName" name="name" label="Habit" variant="outlined" required autoFocus className="form-control"
             placeholder="Name"
             onChange={handleControlledInputChange}
-            defaultValue={habit.name} />
+            value={habit.name} />
           </div>
         </fieldset>
         <FormControl className={classes.formControl}>
@@ -144,7 +146,7 @@ export const HabitForm = () => {
         type="time"
         name="time"
         onChange={handleControlledInputChange}
-        defaultValue="07:30"
+        value={habit.time}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,

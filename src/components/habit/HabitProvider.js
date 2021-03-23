@@ -45,6 +45,19 @@ export const HabitProvider = (props) => {
             .then(getHabitsById)
     }
 
+    const completeHabit = habitId => {
+        return fetch(`http://localhost:8088/habits/${habitId}`, {
+            method: "PATCH",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                completed: true
+            })        
+        })
+        .then(getHabits)
+    }
+
     const updateHabit = habit => {
         return fetch(`http://localhost:8088/habits/${habit.id}`, {
           method: "PUT",
@@ -59,7 +72,7 @@ export const HabitProvider = (props) => {
         // You return a context provider which has the 'animals' state, 'getAnimals' function, anmd the 'addAnimal' function as keys. This allows any child elements to access them.
         return (
             <HabitContext.Provider value={{
-                habits, getHabits, addHabit, getHabitsById, getHabitById, releaseHabit, updateHabit, searchTerms, setSearchTerms
+                habits, getHabits, addHabit, getHabitsById, getHabitById, releaseHabit, completeHabit, updateHabit, searchTerms, setSearchTerms
             }}>
                 {props.children}
             </HabitContext.Provider>
