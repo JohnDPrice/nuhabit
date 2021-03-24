@@ -5,7 +5,7 @@ import "../habit/Habit.css"
 import { useHistory } from "react-router-dom"
 import { Button, Grid, ButtonGroup } from "@material-ui/core"
 import Typography from '@material-ui/core/Typography';
-import GridList from '@material-ui/core/GridList';
+import Box from '@material-ui/core/Box';
 
 export const CompletedHabitList = () => {
   const { habits, getHabitsById} = useContext(HabitContext)
@@ -28,33 +28,36 @@ export const CompletedHabitList = () => {
 
   return (
     <>
-      <Grid container display="flex">
-        <Typography variant="h3" justify-content="flex-start">Completed Habits</Typography>
+      <Box mt="2em">
+      <Grid container display="flex" justify="space-beween">
+          <Typography variant="h3">Completed Habits</Typography>
 
-        <Grid item justify-content="flex-end" flex-direction="row-reverse">
-          <ButtonGroup orientation="vertical" aria-label="vertical button group">
-              <Button variant="outlined" className="toDoButton" color="secondary" xs={6} onClick={() => history.push("/habits")}>To Do</Button>
-              <Button variant="contained" className="completedButton" color="secondary" xs={6}>Completed Habits</Button>
-          </ButtonGroup>
-        </Grid>
+          <Grid item flex-direction="row-reverse">
+            <ButtonGroup orientation="vertical" aria-label="vertical button group">
+                <Button variant="outlined" className="toDoButton" color="secondary" xs={6} onClick={() => history.push("/habits")}>To Do</Button>
+                <Button variant="contained" className="completedButton" color="secondary" xs={6}>Completed Habits</Button>
+            </ButtonGroup>
+          </Grid>
       </Grid>
+      </Box>
 
+      <Box mt="2em">
+        <Grid display="flex">
+            <div className="habits">
+                {
+                  filteredHabits.map(habit => {
+                      if(habit.completed === true) {
 
-    <GridList cellHeight={50} cols={1} display="flex" flexWra="wrap">
-      <div className="habits">
-      {
-        filteredHabits.map(habit => {
-            if(habit.completed === true) {
-
-            
-                return (
-                <CompletedHabitCard key={habit.id} habit={habit} />
-                )
-            }
-        })
-      }
-      </div>
-      </GridList>
+                      
+                          return (
+                          <CompletedHabitCard key={habit.id} habit={habit} />
+                          )
+                      }
+                  })
+                }
+              </div>
+          </Grid>
+        </Box>
     </>
   )
 }

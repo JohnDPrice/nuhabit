@@ -5,7 +5,7 @@ import ResponsiveDrawer from "./nav/NavBar"
 import { ApplicationViews } from "./ApplicationViews";
 import "./NuHabit.css";
 import { Route, Redirect } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
@@ -18,7 +18,7 @@ const theme = createMuiTheme({
       light: '#ff7633',
       main: '#ff5400',
       contrastText: '#bd23a00',
-    },
+    }
   },
 });
 

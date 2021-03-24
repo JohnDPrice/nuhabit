@@ -61,27 +61,27 @@
       "id": 17
     },
     {
+      "id": 18,
       "userId": 1,
       "name": "Read",
       "habitCategoryId": 2,
       "time": "20:30",
-      "completed": false,
-      "id": 18
+      "completed": false
     },
     {
+      "id": 19,
       "userId": 1,
       "name": "Run",
       "habitCategoryId": 1,
       "time": "06:00",
-      "completed": false,
-      "id": 19
+      "completed": false
     },
     {
       "userId": 1,
       "name": "Write",
       "habitCategoryId": 2,
       "time": "21:00",
-      "completed": false,
+      "completed": true,
       "id": 20
     },
     {
@@ -89,7 +89,7 @@
       "name": "Yoga",
       "habitCategoryId": 1,
       "time": "18:45",
-      "completed": false,
+      "completed": true,
       "id": 21
     },
     {
@@ -97,8 +97,16 @@
       "name": "Habit 20",
       "habitCategoryId": 1,
       "time": "17:05",
-      "completed": false,
+      "completed": true,
       "id": 22
+    },
+    {
+      "userId": 1,
+      "name": "Write",
+      "habitCategoryId": 2,
+      "time": "21:00",
+      "completed": false,
+      "id": 23
     }
   ],
   "habitCategories": [

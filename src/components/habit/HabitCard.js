@@ -11,6 +11,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Radio from '@material-ui/core/Radio';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 export const HabitCard = ({ habit }) => {
@@ -31,8 +33,7 @@ export const HabitCard = ({ habit }) => {
     }
 
    let milToStandard = (habit) => { //If value is the expected length for military time then process to standard time.
-    console.log(habit)
-        let hour = habit.time.substring(0,1)
+        let hour = habit.time.substring(0,2)
         let minutes = habit.time.substring(3,5)
         let identifier = "AM" //Initialize AM PM identifier
         
@@ -50,26 +51,13 @@ export const HabitCard = ({ habit }) => {
         return hour + ':' + minutes + ' ' + identifier; //Return the constructed standard time
       }
 
-      let timeConverter = () => {
-          milToStandard(habit.time)
-      }
-
 return (
     <Card>
         <CardContent>
+            <FormControlLabel value="completedHabitRadio" control={<Radio  onClick={handleComplete}/>} label="" />
             <Typography  variant="h4" className="habit__name">
                     { habit.name }
             </Typography>
-            <FormControlLabel
-                control={
-                <Checkbox
-                    name="habitCompletionCheckbox"
-                    color="primary"
-                    onClick={handleComplete}
-                />
-                }
-                label="Completed"
-            />
             <Typography variant="body" className="habit__time">{ milToStandard(habit) }
             </Typography>
             <div>

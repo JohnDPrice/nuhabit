@@ -69,13 +69,13 @@ export default function SimpleTabs() {
         <BrowserRouter>
             <Route path="/">
                 <AppBar position="static">
-                    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="habits" value="habit" onChange={handleChange} 
+                    <Tabs value={value} className="navLinks" onChange={handleChange} aria-label="simple tabs example">
+                    <Tab label={<span style={{ color: 'white' }}>habits</span>} value="habit" className="navLink" onChange={handleChange} 
                       onClick={() => {
                         history.push("/habits")
                       }}
                       component={Link} to="/habits"/>
-                    <Tab label="progress" value="progress" onChange={handleChange} 
+                    <Tab label={<span style={{ color: 'white' }}>progress</span>} value="progress" className="navLink" onChange={handleChange} 
                         onClick={() => {
                         history.push("/progress")
                         }} 
