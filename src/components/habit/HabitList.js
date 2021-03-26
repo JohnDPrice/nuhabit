@@ -8,10 +8,12 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { HabitForm } from './HabitForm'
 
 export const HabitList = () => {
   
-  const { habits, getHabitsById} = useContext(HabitContext)
+  const { habits, getHabitsById } = useContext(HabitContext)
+  const [ openPopup, setOpenPopup ] = useState(false)
 
   // Since you are no longer ALWAYS displaying all of the articles
   const [ filteredHabits, setFiltered ] = useState([])
@@ -31,20 +33,18 @@ export const HabitList = () => {
 
   return (
     <div className="habitListContainer">
-      <Box mt="2em">
+      <Box mt="3em" mx="5em">
           <Grid container direction="row" justify="space-between">
             <Grid item justify="flex-start">
               <Typography variant="h2" display="inline">Habits</Typography>
             </Grid>
 
             <Grid item>
-              <div className="addHabitContainer" container justify="center">
                 <Tooltip title="Add a new habit">
                   <Fab color="secondary">
-                    <AddIcon style={{ fontSize: 40 }} className="addHabit" onClick={() => history.push("/habits/create")} /> 
+                    <AddIcon style={{ fontSize: 40 }} className="addHabit" onClick={() => setOpenPopup(true)} /> 
                   </Fab>
                 </Tooltip>
-              </div>
             </Grid>
 
             <Grid item alignItems="flex-end">
@@ -53,9 +53,10 @@ export const HabitList = () => {
                 <Button variant="outlined" className="completedButton" color="secondary" onClick={() => history.push("/completed-habits")}>Completed Habits</Button>
               </ButtonGroup>
             </Grid>
-          </Grid>
+            </Grid>
+          </Box>
 
-        <Box mt="2em">
+        <Box mt="2em" mx="4em">
           <div className="habits">
             {
               filteredHabits.map(habit => {
@@ -69,7 +70,11 @@ export const HabitList = () => {
             }
           </div>
         </Box>
-        </Box>
+        <HabitForm
+        title = "Habit Form"
+        openPopup = {openPopup} 
+        setOpenPopup = {setOpenPopup}
+        />
     </div>
   )
 }

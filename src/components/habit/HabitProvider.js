@@ -9,7 +9,7 @@ export const HabitProvider = (props) => {
     const [ searchTerms, setSearchTerms ] = useState("")
 
     const getHabits = () => {
-        return fetch("http://localhost:8088/habits")
+        return fetch("http://localhost:8088/habits/")
         .then(res => res.json())
         .then(setHabits)
     }
@@ -23,6 +23,7 @@ export const HabitProvider = (props) => {
             body: JSON.stringify(habitObj)
         })
         .then(response => response.json())
+        .then(getHabitsById)
     }
 
     const userId = localStorage.getItem("nuhabit_user")
@@ -58,6 +59,32 @@ export const HabitProvider = (props) => {
         .then(getHabits)
     }
 
+    const uncompleteHabit = habitId => {
+        return fetch(`http://localhost:8088/habits/${habitId}`, {
+            method: "PATCH",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                completed: false
+            })        
+        })
+        .then(getHabits)
+    }
+
+    const completedHabitDate = habitId => {
+        return fetch(`http://localhost:8088/habits/${habitId}`, {
+            method: "PATCH",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                completedDate: new Date()
+            })        
+        })
+        .then(getHabits)
+    }
+
     const updateHabit = habit => {
         return fetch(`http://localhost:8088/habits/${habit.id}`, {
           method: "PUT",
@@ -72,7 +99,7 @@ export const HabitProvider = (props) => {
         // You return a context provider which has the 'animals' state, 'getAnimals' function, anmd the 'addAnimal' function as keys. This allows any child elements to access them.
         return (
             <HabitContext.Provider value={{
-                habits, getHabits, addHabit, getHabitsById, getHabitById, releaseHabit, completeHabit, updateHabit, searchTerms, setSearchTerms
+                habits, getHabits, addHabit, getHabitsById, getHabitById, releaseHabit, completeHabit, uncompleteHabit, completedHabitDate, updateHabit, searchTerms, setSearchTerms
             }}>
                 {props.children}
             </HabitContext.Provider>

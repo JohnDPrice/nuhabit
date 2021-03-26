@@ -3,32 +3,36 @@ import { HabitContext } from "../habit/HabitProvider"
 import { HabitCategoryContext } from "../habitCategory/CategoryProvider"
 import "./Habit.css"
 import { useHistory, useParams } from 'react-router-dom';
-import { Button } from "@material-ui/core"
+import { Button, Dialog, DialogContent, DialogTitle, DialogActions } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Box from '@material-ui/core/Box';
 
-export const HabitForm = () => {
+export const HabitForm = (props) => {
     const { addHabit, updateHabit, getHabitById } = useContext(HabitContext)
     const { habitCategories, getHabitCategories } = useContext(HabitCategoryContext)
+    const { openPopup, setOpenPopup, habitId } = props
     
-    //for edit, hold on to state of animal in this view
+    //for edit, hold on to state of habit in this view
     const [habit, setHabit] = useState({
       name: "",
       userId: "",
       time: "",
-      habitCategoryId: 0
+      habitCategoryId: 0,
+      completedDate: ""
     })
-    const [habitCategory] = useState([])
 
     //wait for data before button is active
     const [isLoading, setIsLoading] = useState(true);
 
-    const {habitId} = useParams();
 	  const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({
@@ -41,8 +45,20 @@ export const HabitForm = () => {
           marginRight: theme.spacing(1),
           width: 100,
         },
+        dialogWrapper : {
+          padding : theme.spacing(2),
+          position : 'absolute',
+          top : theme.spacing(5)
+        },
+        closeButton: {
+          position: 'absolute',
+          right: theme.spacing(1),
+          top: theme.spacing(1),
+          color: theme.palette.grey[500],
+        },
       }));
-      const classes = useStyles();
+      
+      const classes = useStyles;
 
 
     //when field changes, update state. This causes a re-render and updates the view.
@@ -51,7 +67,7 @@ export const HabitForm = () => {
       //When changing a state object or array,
       //always create a copy make changes, and then set state.
       const newHabit = { ...habit }
-      //animal is an object with properties.
+      //habit is an object with properties.
       //set the property to the new value
       newHabit[event.target.name] = event.target.value
       //update state
@@ -63,7 +79,6 @@ export const HabitForm = () => {
           window.alert("Please fill add a name")
       } else {
         //disable the button - no extra clicks
-        setIsLoading(true);
         if (habitId){
           //PUT - update
           updateHabit({
@@ -72,7 +87,8 @@ export const HabitForm = () => {
               name: habit.name,
               habitCategoryId: parseInt(habit.habitCategoryId),
               time: habit.time,
-              completed: false
+              completed: false,
+              completedDate: ""
           })
           .then(() => history.push(`/habits/`))
         }else {
@@ -83,14 +99,21 @@ export const HabitForm = () => {
             name: habit.name,
             habitCategoryId: parseInt(habit.habitCategoryId),
             time: habit.time,
-            completed: false
+            completed: false,
+            completedDate: ""
           })
+          .then(() => setHabit({
+            name: "",
+            userId: "",
+            time: "",
+            habitCategoryId: 0
+          }))
           .then(() => history.push("/habits"))
         }
       }
     }
 
-    // Get customers and locations. If animalId is in the URL, getAnimalById
+    // Get habits. If habitId is in the URL, getHabitById
     useEffect(() => {
         if (habitId){
           getHabitById(habitId)
@@ -105,65 +128,86 @@ export const HabitForm = () => {
 
     useEffect(() => {
         getHabitCategories()
+        .then(() => getHabitById(habitId))
+        .then(setHabit)
     }, [])
 
-    return (
-      <form className="habitForm">
-        <h2 className="habitForm__title">Add Habit</h2>
-        <fieldset>
-          <div className="form-group">
-            <TextField type="text" id="habitName" name="name" label="Habit" variant="outlined" required autoFocus className="form-control"
-            placeholder="Name"
-            onChange={handleControlledInputChange}
-            value={habit.name} />
-          </div>
-        </fieldset>
-        <FormControl className={classes.formControl}>
-          <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-            Category
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-placeholder-label-label"
-            id="habitCategoryId" name="habitCategoryId"
-            displayEmpty
-            className={classes.selectEmpty}  onChange={handleControlledInputChange} value={habit.habitCategoryId}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {habitCategories.map(c => (
-                  <MenuItem key={c.id} value={c.id}>
-                      {c.name}
-                  </MenuItem>
-                ))}
-          </Select>
-          <FormHelperText>Please Select A Category</FormHelperText>
-        </FormControl>
 
-        <TextField
-        id="time"
-        label="Time"
-        type="time"
-        name="time"
-        onChange={handleControlledInputChange}
-        value={habit.time}
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        inputProps={{
-          step: 300, // 5 min
-        }}
-      />
-        
-        <Button className="btn btn-primary" variant="contained" color="primary"
+    const handleClose = () => {
+      setOpenPopup(false);
+    };
+
+    return (
+      <Dialog open={openPopup} onClose={handleClose} maxWidth="md" classes={{ paper: classes.closeButton} } >
+        <DialogTitle>
+            <div style={{ display: 'flex' }}>
+            <Typography variant="h5" component="div" style={{ flexGrow:1, marginTop: '.4em' }}>Habit Form</Typography>
+            <IconButton aria-label="close" onClick={handleClose}>
+                <CloseIcon />
+            </IconButton>
+            </div>
+        </DialogTitle>
+        <DialogContent dividers>
+            <fieldset>
+            <div style={{ display: 'flex', marginBottom: '1em' }}>
+              <TextField type="text" id="habitName" name="name" label="Habit" variant="outlined" required autoFocus className="form-control"
+              placeholder="Name"
+              onChange={handleControlledInputChange}
+              defaultValue={habit.name} />
+            </div>
+
+            <div style={{ display: 'flex' }}>
+            <FormControl className={classes.formControl}>
+              <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                Category
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-placeholder-label-label"
+                id="habitCategoryId" name="habitCategoryId"
+                displayEmpty
+                className={classes.selectEmpty} style={{ marginRight: '.5em' }} onChange={handleControlledInputChange} defaultValue={habit.habitCategoryId}>
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {habitCategories.map(c => (
+                      <MenuItem key={c.id} value={c.id}>
+                          {c.name}
+                      </MenuItem>
+                    ))}
+              </Select>
+              <FormHelperText>Please Select A Category</FormHelperText>
+            </FormControl>
+
+            <TextField
+              id="time"
+              label="Time"
+              type="time"
+              name="time"
+              onChange={handleControlledInputChange}
+              defaultValue={habit.time}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                step: 300, // 5 min
+              }}
+            />
+          </div>
+          </fieldset>
+        </DialogContent>
+        <DialogActions style={{ display: 'flex' }}>
+          <Button className={classes.saveButton} style={{ marginTop: '1em', marginBottom: '1em', marginRight: '6em' }} variant="contained" color="primary"
           disabled={isLoading}
           onClick={event => {
-            event.preventDefault() // Prevent browser from submitting the form and refreshing the page
+            event.preventDefault()
+            handleClose() // Prevent browser from submitting the form and refreshing the page
             handleSaveHabit()
           }}>
-        {habitId ? <>Save Habit</> : <>Save Habit</>}</Button>
-      </form>
-      
+            {habitId ? <>Save Habit</> : <>Save Habit</>}
+          </Button>
+        </DialogActions>
+      </Dialog>
+   
     )
 }

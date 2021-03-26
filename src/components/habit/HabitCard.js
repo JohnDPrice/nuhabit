@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./Habit.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { HabitContext } from "./HabitProvider";
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Checkbox from '@material-ui/core/Checkbox';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -13,12 +12,27 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Radio from '@material-ui/core/Radio';
 import Tooltip from '@material-ui/core/Tooltip';
+import { HabitForm } from './HabitForm'
 
 
 export const HabitCard = ({ habit }) => {
     
-    const { releaseHabit, setHabits, completeHabit } = useContext(HabitContext)
+    const { releaseHabit, completeHabit, getHabitById, updateHabit, completedHabitDate } = useContext(HabitContext)
     const history = useHistory()
+    const [openPopup, setOpenPopup] = useState(false)
+    const [completedDate, setCompletedDate] = useState(habit.completedDate)
+    const { habitId } = useParams();
+
+    //for edit, hold on to state of habit in this view
+    const [ editHabit, setHabit] = useState({
+        name: "",
+        userId: "",
+        time: "",
+        habitCategoryId: 0,
+        completedDate: new Date()
+        })
+
+    const [isLoading, setIsLoading] = useState(true);
 
     let handleRelease = () => {
         releaseHabit(habit.id)
@@ -27,10 +41,13 @@ export const HabitCard = ({ habit }) => {
         })
     }
 
-
     let handleComplete = () => {
         completeHabit(habit.id)
     }
+
+    useEffect(() => {
+        getHabitById()
+    }, [])
 
    let milToStandard = (habit) => { //If value is the expected length for military time then process to standard time.
         let hour = habit.time.substring(0,2)
@@ -51,10 +68,63 @@ export const HabitCard = ({ habit }) => {
         return hour + ':' + minutes + ' ' + identifier; //Return the constructed standard time
       }
 
+      const handleSaveHabit = () => {
+          if (habitId){
+            //PUT - update
+            updateHabit({
+                id: habit.id,
+                userId: parseInt(habit.userId),
+                name: habit.name,
+                habitCategoryId: parseInt(habit.habitCategoryId),
+                time: habit.time,
+                completed: false,
+                completedDate: new Date()
+            })
+        }
+      }
+
+      const handleControlledInputChange = (event) => {
+        //When changing a state object or array,
+        //always create a copy make changes, and then set state.
+        const newHabit = { ...editHabit }
+        //habit is an object with properties.
+        //set the property to the new value
+        newHabit[event.target.name] = event.target.value
+        console.log(event, event.target.name)
+        //update state
+        setCompletedDate(newHabit)
+      }
+
+      let onClickFunctions = () => {
+          handleComplete()
+          completedHabitDate()
+          handleSaveHabit()
+      }
+
+      useEffect(() => {
+        if (habitId){
+          getHabitById(habitId)
+          .then(editHabit => {
+              setHabit(editHabit)
+              setIsLoading(false)
+          })
+        } else {
+          setIsLoading(false)
+        }
+    }, [])
+
+      useEffect(() => {
+        getHabitById(habitId)
+        .then(setHabit)
+    }, [])
+
+
 return (
     <Card>
         <CardContent>
-            <FormControlLabel value="completedHabitRadio" control={<Radio  onClick={handleComplete}/>} label="" />
+            <Tooltip title="Complete Habit">
+                <FormControlLabel control={<Radio id="completedDate" disabled={isLoading} value={completedDate} onChange={handleControlledInputChange} onClick={onClickFunctions}/>} label="" />
+            </Tooltip>
             <Typography  variant="h4" className="habit__name">
                     { habit.name }
             </Typography>
@@ -66,11 +136,20 @@ return (
         </CardContent>
         <CardActions>
             <IconButton>
-                <EditIcon style={{ fontSize: 40 }} className="addHabit" onClick={() => history.push(`/habits/edit/${habit.id}`)} />
+                <Tooltip title="Edit Habit">
+                    <EditIcon style={{ fontSize: 40 }} className="addHabit" onClick={() => setOpenPopup(true)}></EditIcon> 
+                </Tooltip>
             </IconButton>
             <IconButton>
-                <DeleteIcon style={{ fontSize: 40 }} className="addHabit" onClick={handleRelease}/>
+                <Tooltip title="Delete Habit">
+                    <DeleteIcon style={{ fontSize: 40 }} className="addHabit" onClick={handleRelease}/>
+                </Tooltip>
             </IconButton>
+            <HabitForm 
+            openPopup = {openPopup} 
+            setOpenPopup = {setOpenPopup}
+            habitId = {habit.id}
+            />
         </CardActions>
     </Card>
     )

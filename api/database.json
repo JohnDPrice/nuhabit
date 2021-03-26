@@ -17,96 +17,10 @@
       "userId": 1,
       "name": "Habit",
       "habitCategoryId": 1,
-      "time": "01:25",
-      "id": 12,
-      "completed": true
-    },
-    {
-      "userId": 1,
-      "name": "Habit 4",
-      "habitCategoryId": 2,
-      "time": "02:31",
-      "completed": true,
-      "id": 13
-    },
-    {
-      "userId": 1,
-      "name": "Habit 4",
-      "habitCategoryId": 1,
-      "time": "01:33",
-      "completed": true,
-      "id": 14
-    },
-    {
-      "id": 15,
-      "userId": 1,
-      "name": "Run",
-      "habitCategoryId": 1,
-      "time": "06:00"
-    },
-    {
-      "id": 16,
-      "userId": 1,
-      "name": "Run",
-      "habitCategoryId": 1,
-      "time": "06:00",
-      "completed": true
-    },
-    {
-      "userId": 1,
-      "name": "Run",
-      "habitCategoryId": 1,
-      "time": "06:00",
-      "completed": true,
-      "id": 17
-    },
-    {
-      "id": 18,
-      "userId": 1,
-      "name": "Read",
-      "habitCategoryId": 2,
-      "time": "20:30",
-      "completed": false
-    },
-    {
-      "id": 19,
-      "userId": 1,
-      "name": "Run",
-      "habitCategoryId": 1,
-      "time": "06:00",
-      "completed": false
-    },
-    {
-      "userId": 1,
-      "name": "Write",
-      "habitCategoryId": 2,
-      "time": "21:00",
-      "completed": true,
-      "id": 20
-    },
-    {
-      "userId": 1,
-      "name": "Yoga",
-      "habitCategoryId": 1,
-      "time": "18:45",
-      "completed": true,
-      "id": 21
-    },
-    {
-      "userId": 1,
-      "name": "Habit 20",
-      "habitCategoryId": 1,
-      "time": "17:05",
-      "completed": true,
-      "id": 22
-    },
-    {
-      "userId": 1,
-      "name": "Write",
-      "habitCategoryId": 2,
-      "time": "21:00",
+      "time": "15:31",
       "completed": false,
-      "id": 23
+      "completedDate": "",
+      "id": 1
     }
   ],
   "habitCategories": [
