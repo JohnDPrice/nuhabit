@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect, Fragment } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { HabitContext } from "../habit/HabitProvider"
 import { HabitCategoryContext } from "../habitCategory/CategoryProvider"
 import "./Habit.css"
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button, Dialog, DialogContent, DialogTitle, DialogActions } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -14,7 +14,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Box from '@material-ui/core/Box';
 
 export const HabitForm = (props) => {
     const { addHabit, updateHabit, getHabitById } = useContext(HabitContext)
@@ -76,9 +75,9 @@ export const HabitForm = (props) => {
 
     const handleSaveHabit = () => {
       if (habit.name ===  "") {
-          window.alert("Please fill add a name")
+          window.alert("Please add a habit name")
       } else {
-        //disable the button - no extra clicks
+
         if (habitId){
           //PUT - update
           updateHabit({
@@ -88,9 +87,9 @@ export const HabitForm = (props) => {
               habitCategoryId: parseInt(habit.habitCategoryId),
               time: habit.time,
               completed: false,
-              completedDate: ""
+              completedDate: new Date()
           })
-          .then(() => history.push(`/habits/`))
+          .then(() => history.push(`/habits`))
         }else {
           //POST - add
           addHabit({
@@ -100,7 +99,7 @@ export const HabitForm = (props) => {
             habitCategoryId: parseInt(habit.habitCategoryId),
             time: habit.time,
             completed: false,
-            completedDate: ""
+            completedDate: new Date()
           })
           .then(() => setHabit({
             name: "",
@@ -204,7 +203,7 @@ export const HabitForm = (props) => {
             handleClose() // Prevent browser from submitting the form and refreshing the page
             handleSaveHabit()
           }}>
-            {habitId ? <>Save Habit</> : <>Save Habit</>}
+            Save Habit
           </Button>
         </DialogActions>
       </Dialog>

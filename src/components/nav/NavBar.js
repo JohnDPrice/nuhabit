@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { BrowserRouter, Route, Link, Switch, useHistory } from "react-router-dom"
 import reactDom from 'react-dom';
-import { browserHistory } from "react-router"
+import { Logout } from '../auth/Logout'
 
 
 function TabPanel(props) {
@@ -48,7 +48,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    height: theme.navBarHeight
   },
+  tabBar: {
+    top: '80px'
+  },
+  rightAlign: {
+    marginLeft: 'auto',
+  }
 }));
 
 export default function SimpleTabs() {
@@ -69,18 +76,27 @@ export default function SimpleTabs() {
         <BrowserRouter>
             <Route path="/">
                 <AppBar position="static">
+                  <div className="navContainer" label={<span style={{display: 'flex'}} />}>
                     <Tabs value={value} className="navLinks" onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label={<span style={{ color: 'white' }}>habits</span>} value="habit" className="navLink" onChange={handleChange} 
+                    <Tab label={<span style={{ color: 'black' }}>Habits</span>} value="habit" className="navLink" onChange={handleChange} 
                       onClick={() => {
                         history.push("/habits")
                       }}
                       component={Link} to="/habits"/>
-                    <Tab label={<span style={{ color: 'white' }}>progress</span>} value="progress" className="navLink" onChange={handleChange} 
+                    <Tab label={<span style={{ color: 'black' }}>Progress</span>} value="progress" className="navLink" onChange={handleChange} 
                         onClick={() => {
                         history.push("/progress")
                         }} 
                         component={Link} to="/progress" />
+                      
+                    <Tab label={<span style={{ color: 'black'}}>Log Out</span>} value="logOut" className={classes.rightAlign} onChange={handleChange} 
+                      onClick={() => {
+                      localStorage.removeItem('nuhabit_user')
+                      history.push("/login")
+                      }} 
+                      component={Link} to="/progress" />
                     </Tabs>
+                  </div>
                 </AppBar>
             </Route>
             <Switch>

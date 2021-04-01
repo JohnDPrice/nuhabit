@@ -6,6 +6,8 @@ import { ApplicationViews } from "./ApplicationViews";
 import "./NuHabit.css";
 import { Route, Redirect } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { useState } from "react";
+import { AuthProvider } from './auth/AuthProvider'
 
 const theme = createMuiTheme({
   palette: {
@@ -41,12 +43,15 @@ export const NuHabit = () => (
         }
       }}
     />
-
-    <Route path="/login">
-      <Login />
-    </Route>
-    <Route path="/register">
-      <Register />
-    </Route>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/register">
+          <Register />
+        </Route>
+      </ThemeProvider>
+    </AuthProvider>
   </>
 );

@@ -5,6 +5,8 @@ import { HabitCategoryProvider } from "./habitCategory/CategoryProvider"
 import { HabitForm } from "./habit/HabitForm"
 import { HabitList } from "./habit/HabitList"
 import { CompletedHabitList } from "./completedHabit/CompletedHabitList";
+import { BarChart } from "./progress/BarChart";
+import { LineChart } from "./progress/LineChart";
 
 
 export const ApplicationViews = () => {
@@ -30,6 +32,10 @@ export const ApplicationViews = () => {
                     </Route>
                     <Route exact path="/completed-habits">
                         <CompletedHabitList />
+                    </Route>
+                    <Route exact path="/progress">
+                        <BarChart />
+                        <LineChart />
                     </Route>
                 </HabitCategoryProvider>
             </HabitProvider>   
