@@ -18,7 +18,7 @@ export const CompletedHabitCard = ({ habit }) => {
     }
 
 return (
-        <Card style={{ width: '25em', height: '10em'}}>
+        <Card style={{ width: '25em', height: '10em', backgroundColor: '#f2f2f2'}}>
             <Box m="1em">
                 <Tooltip title="Add habit back to to do list">
                     <FormControlLabel value={habit.completedDate} control={<Radio defaultChecked onClick={handleUncomplete}/>} label="" />

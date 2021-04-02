@@ -437,6 +437,15 @@
       "time": "15:14",
       "completed": false,
       "completedDate": "2021-04-01T19:14:18.103Z"
+    },
+    {
+      "id": 50,
+      "userId": 1,
+      "name": "Walk two miles",
+      "habitCategoryId": 1,
+      "time": "05:00",
+      "completed": false,
+      "completedDate": "2021-04-02T13:53:00.489Z"
     }
   ],
   "habitCategories": [
